@@ -17,21 +17,26 @@
 	function handleKeyup (config) {
 		return function(e){
 			var code = e.keyCode || e.whitch;
-			if(config[code])
-				goToNext(config[code](config));
+			if(config[code]){
+				var active = selectActive(config);
+				var action = config[code];
+				goToNext(action(active));
+			}
 		}
 	}
 
-	function prevFunction (config) {
-		var element = window.document.querySelector(config.active);
+	function selectActive (config) {
+		return window.document.querySelector(config.activeSelector);
+	}
+
+	function prevFunction (element) {
 		var next = element.previousElementSibling;
 		if(!next){
 			next = element.parentElement.lastElementChild;
 		}
 		return next;
 	}
-	function nextFunction (config) {
-		var element = window.document.querySelector(config.active);
+	function nextFunction (element) {
 		var next = element.nextElementSibling;
 		if(!next){
 			next = element.parentElement.firstElementChild;
@@ -40,9 +45,9 @@
 	}
 
 	function goToNext(element){
-		window.document.location.href = element.querySelector('a').getAttribute('href');
+		if(element)
+			window.document.location.href = element.querySelector('a').getAttribute('href');
 	}
-
 
 	window.KeyboardNav = KeyboardNav;
 
