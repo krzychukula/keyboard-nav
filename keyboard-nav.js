@@ -2,12 +2,20 @@
 ;(function(window){
 	"use strict";
 
+	function extend(a, b){
+    for(var key in b)
+        if(b.hasOwnProperty(key))
+            a[key] = b[key];
+    return a;
+	}
+	var defConfig = {
+		activeSelector: '.active',
+		prevCode: 37,
+		nextCode: 39
+	};
+
 	function KeyboardNav (config) {
-		config = config || {
-			activeSelector: '.active',
-			prevCode: 37,
-			nextCode: 39
-		};
+		config = extend(defConfig, config) ;
 		config[config.prevCode] = prevFunction;
 		config[config.nextCode] = nextFunction;
 
